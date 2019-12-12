@@ -22,7 +22,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 	
 	@ExceptionHandler(UsuarioOuSenhaInvalidoException.class)
-	public ResponseEntity<Object> tratarUsuarioOuSenhaInvalidoException(EmailJaUtilizadoException e) {
+	public ResponseEntity<Object> tratarUsuarioOuSenhaInvalidoException(UsuarioOuSenhaInvalidoException e) {
 		Problema problema = Problema.builder()
 				.mensagem(e.getMessage())
 				.build();

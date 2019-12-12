@@ -42,11 +42,12 @@ public class UsuarioService {
 		Usuario usuario = usuarioRepository.findByEmail(email)
 			.orElseThrow(() -> new UsuarioOuSenhaInvalidoException());
 		validaSenha(usuario, password);
+		usuario.setToken(tokenFactory.newToken());
 		return usuario;
 	}
 
 	private void validaSenha(Usuario usuario, String password) {
-		if(!usuario.getPassword().equals(passwordEncoder.encode(password)))
+		if(!passwordEncoder.matches(password, usuario.getPassword()))
 			throw new UsuarioOuSenhaInvalidoException();
 	}
 

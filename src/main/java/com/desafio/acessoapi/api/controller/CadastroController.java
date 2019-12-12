@@ -1,5 +1,6 @@
 package com.desafio.acessoapi.api.controller;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.desafio.acessoapi.api.model.UsuarioCadastro;
 import com.desafio.acessoapi.domain.model.Usuario;
 import com.desafio.acessoapi.domain.service.UsuarioService;
 
@@ -23,11 +25,10 @@ public class CadastroController {
 	}
 
 	@PostMapping
-	ResponseEntity<Object> cadastrar(@RequestBody Usuario usuario) {
+	ResponseEntity<Object> cadastrar(@RequestBody UsuarioCadastro usuarioCadastro) {
+		Usuario usuario = new Usuario();
+		BeanUtils.copyProperties(usuarioCadastro, usuario);
 		Usuario usuarioNovo = usuarioService.cadastrar(usuario);
-//		URI usuarioUri = ServletUriComponentsBuilder.fromCurrentRequest()
-//				.path("/{id}").buildAndExpand(usuarioNovo.getId()).toUri();
-//		return ResponseEntity.created(usuarioUri).body(usuarioNovo);
 		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioNovo);
 	}
 	
