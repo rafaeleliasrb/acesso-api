@@ -1,4 +1,4 @@
-package com.desafio.acessoapi.api.security;
+package com.desafio.acessoapi.infrastructure.security;
 
 public final class SecurityConstants {
 
