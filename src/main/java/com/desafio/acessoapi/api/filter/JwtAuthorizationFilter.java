@@ -11,8 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,8 +40,6 @@ import io.jsonwebtoken.security.SignatureException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-    private static final Logger log = LoggerFactory.getLogger(JwtAuthorizationFilter.class);
-    
     private UsuarioRepository usuarioRepository;
 
     public JwtAuthorizationFilter(AuthenticationManager authenticationManager,
@@ -56,14 +52,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
     		FilterChain filterChain) throws IOException, ServletException {
     	
-    	UsernamePasswordAuthenticationToken authentication = null;
-//    	try {
-    		authentication = getAuthentication(request);
-//    	} catch (NaoAutorizadoException e) {
-//    		int codigo = HttpStatus.FORBIDDEN.ordinal();
-//    		adicionaErroNoResponse(response, e, codigo);
-//    		throw new NaoAutorizadoException();
-//    	}
+    	UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
 
     	if (authentication == null) {
             filterChain.doFilter(request, response);
@@ -73,20 +62,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request, response);
     }
-
-//	private void adicionaErroNoResponse(HttpServletResponse response, Exception exception, int codigo) {
-//		ObjectMapper mapper = new ObjectMapper();
-//		Problema problema = Problema.builder()
-//				.mensagem(exception.getMessage())
-//				.build();
-//		response.setStatus(codigo);
-//		response.setContentType("application/json");
-//		try {
-//			response.getWriter().write(mapper.writeValueAsString(problema));
-//		} catch (IOException e) {
-//			log.error("Erro ao adicionar erro ao Response");
-//		}
-//	}
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(SecurityConstants.TOKEN_HEADER);

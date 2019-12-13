@@ -22,15 +22,6 @@ import com.desafio.acessoapi.domain.repository.UsuarioRepository;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-//	private UserDetailsService userDetailsService;
-//	private PasswordEncoder passwordEncoder;
-	
-//	@Autowired
-//    public SecurityConfiguration(UserDetailsService userDetailsService) {
-//		this.userDetailsService = userDetailsService;
-//		this.passwordEncoder = passwordEncoder;
-//	}
-
 	private UsuarioRepository usuarioRepository;
 	
 	@Autowired
@@ -58,11 +49,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .password(passwordEncoder().encode("password"))
             .authorities("ROLE_USER");
     }
-    
-//    @Autowired
-//	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-//	}
 
     @Bean
     public PasswordEncoder passwordEncoder() {

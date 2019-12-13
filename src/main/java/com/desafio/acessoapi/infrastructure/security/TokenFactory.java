@@ -26,7 +26,6 @@ public class TokenFactory {
 		this.authenticationManager = authenticationManager;
 	}
 
-	// https://dev.to/keysh/spring-security-with-jwt-3j76
 	public String newToken() {
 		Authentication authentication = attemptAuthentication();
 		User user = ((User) authentication.getPrincipal());
@@ -43,10 +42,8 @@ public class TokenFactory {
 	}
 
 	private Authentication attemptAuthentication() {
-		String username = "user";
-		String password = "password";
 		UsernamePasswordAuthenticationToken authenticationToken = 
-				new UsernamePasswordAuthenticationToken(username, password);
+				new UsernamePasswordAuthenticationToken("user", "password");
 
 		return authenticationManager.authenticate(authenticationToken);
 	}

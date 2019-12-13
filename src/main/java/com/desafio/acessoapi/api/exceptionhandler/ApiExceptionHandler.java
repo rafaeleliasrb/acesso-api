@@ -40,13 +40,4 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problema);
 	}
 	
-//	@ExceptionHandler(NegocioException.class)
-//	public ResponseEntity<Object> tratarNegocioException(NegocioException e) {
-//		Problema problema = Problema.builder()
-//				.dataHora(LocalDateTime.now())
-//				.mensagem(e.getMessage())
-//				.build();
-//		
-//		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problema);
-//	}
 }
