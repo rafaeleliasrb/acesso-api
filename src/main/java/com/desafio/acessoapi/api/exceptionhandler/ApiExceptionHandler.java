@@ -2,6 +2,7 @@ package com.desafio.acessoapi.api.exceptionhandler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -40,4 +41,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problema);
 	}
 	
+	@ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+	public ResponseEntity<Object> tratarHttpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException e) {
+		Problema problema = Problema.builder()
+				.mensagem(e.getMessage())
+				.build();
+		
+		return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(problema);
+	}
 }
