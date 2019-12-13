@@ -93,7 +93,7 @@ public class PerfilControllerTest {
 			.contentType("application/json;charset=UTF-8")
 			.accept("application/json;charset=UTF-8"))
 			.andExpect(status().isUnauthorized())
-			.andExpect(jsonPath("$.mensagem", is("N�o autorizado")));
+			.andExpect(jsonPath("$.mensagem", is("Não autorizado")));
 	}
 	
 	@Test
@@ -109,7 +109,7 @@ public class PerfilControllerTest {
 			.contentType("application/json;charset=UTF-8")
 			.accept("application/json;charset=UTF-8"))
 			.andExpect(status().isUnauthorized())
-			.andExpect(jsonPath("$.mensagem", is("N�o autorizado")));
+			.andExpect(jsonPath("$.mensagem", is("Não autorizado")));
 
 	}
 	
