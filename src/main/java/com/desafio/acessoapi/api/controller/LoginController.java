@@ -1,8 +1,6 @@
 package com.desafio.acessoapi.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +22,8 @@ public class LoginController {
 	}
 
 	@PostMapping
-	ResponseEntity<Object> login(@RequestBody UsuarioLogin usuarioLogin) {
+	Usuario login(@RequestBody UsuarioLogin usuarioLogin) {
 		Usuario usuarioLogado = usuarioService.logar(usuarioLogin.getEmail(), usuarioLogin.getPassword());
-		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioLogado);
+		return usuarioLogado;
 	}
 }

@@ -8,8 +8,10 @@ import javax.persistence.Id;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Entity
 public class Phone {
 	
@@ -20,4 +22,9 @@ public class Phone {
 	
 	private String number;
 	private String ddd;
+	
+	public Phone(String number, String ddd) {
+		this.number = number;
+		this.ddd = ddd;
+	}
 }
