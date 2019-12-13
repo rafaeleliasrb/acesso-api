@@ -29,7 +29,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
 			filterChain.doFilter(request, response);
 		} catch (NaoAutorizadoException e) {
 			Problema problema = Problema.builder().mensagem(e.getMessage()).build();
-			response.setStatus(HttpStatus.FORBIDDEN.value());
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
 			response.setContentType("application/json; charset=UTF-8");
 			response.getWriter().write(convertObjectToJson(problema));
 		} catch (SessaoInvalidaException e) {

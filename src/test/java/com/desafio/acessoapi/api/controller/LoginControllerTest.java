@@ -27,8 +27,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.desafio.acessoapi.api.model.UsuarioCadastro;
-import com.desafio.acessoapi.domain.exception.EmailJaUtilizadoException;
+import com.desafio.acessoapi.api.model.UsuarioLogin;
+import com.desafio.acessoapi.domain.exception.UsuarioOuSenhaInvalidoException;
 import com.desafio.acessoapi.domain.model.Phone;
 import com.desafio.acessoapi.domain.model.Usuario;
 import com.desafio.acessoapi.domain.repository.UsuarioRepository;
@@ -40,7 +40,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class CadastroControllerTest {
+public class LoginControllerTest {
 
 	private static final ObjectMapper om = new ObjectMapper();
 	
@@ -60,7 +60,7 @@ public class CadastroControllerTest {
     private UsuarioService mockService;
 	
 	@Test
-	public void criaUsuarioOk() throws Exception {
+	public void logarOk() throws Exception {
 		String name = "João da Silva";
 		String email = "joao@silva.org";
 		String password = "hunter2";
@@ -68,17 +68,17 @@ public class CadastroControllerTest {
 		String token = tokenFactory.newToken();
 		LocalDateTime now = LocalDateTime.now();
 
-		UsuarioCadastro usuarioCadastro = new UsuarioCadastro(name, email, password, phones);
+		UsuarioLogin usuarioLogin = new UsuarioLogin(email, password); 
 		Usuario usuario = new Usuario(1L, name, email, passwordEncoder.encode(password), phones, 
 				now, now, now, token);
 		
-		when(mockService.cadastrar(any(Usuario.class))).thenReturn(usuario);
+		when(mockService.logar(any(String.class), any(String.class))).thenReturn(usuario);
 		
-		mockMvc.perform(post("/cadastro")
-                .content(om.writeValueAsString(usuarioCadastro))
+		mockMvc.perform(post("/login")
+                .content(om.writeValueAsString(usuarioLogin))
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
                 /*.andDo(print())*/
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is(name)))
                 .andExpect(jsonPath("$.email", is(email)))
@@ -87,29 +87,26 @@ public class CadastroControllerTest {
                 .andExpect(jsonPath("$.phones[0].number", is(phones.get(0).getNumber())))
                 .andExpect(jsonPath("$.token", is(token)));
 
-        verify(mockService, times(1)).cadastrar(any(Usuario.class));
+        verify(mockService, times(1)).logar(any(String.class), any(String.class));
 
 	}
 	
 	@Test
-	public void criaUsuarioComEmailJaExistente() throws Exception {
-		String name = "João da Silva";
+	public void logarEmailErrado() throws Exception {
 		String email = "joao@silva.org";
 		String password = "hunter2";
-		List<Phone> phones = Arrays.asList(new Phone("987654321", "21"));
-
-		UsuarioCadastro usuarioCadastro = new UsuarioCadastro(name, email, password, phones);
 		
-		when(mockService.cadastrar(any(Usuario.class))).thenThrow(new EmailJaUtilizadoException());
+		UsuarioLogin usuarioLogin = new UsuarioLogin(email, password); 
 		
-		mockMvc.perform(post("/cadastro")
-                .content(om.writeValueAsString(usuarioCadastro))
+		when(mockService.logar(any(String.class), any(String.class))).thenThrow(new UsuarioOuSenhaInvalidoException());
+		
+		mockMvc.perform(post("/login")
+                .content(om.writeValueAsString(usuarioLogin))
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
                 /*.andDo(print())*/
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.mensagem", is("E-mail já existente")));
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.mensagem", is("Usuário e/ou senha inválidos")));
 
-		verify(mockService, times(1)).cadastrar(any(Usuario.class));
+        verify(mockService, times(1)).logar(any(String.class), any(String.class));
 	}
-	
 }
