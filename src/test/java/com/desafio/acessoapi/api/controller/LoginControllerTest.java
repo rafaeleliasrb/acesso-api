@@ -61,7 +61,7 @@ public class LoginControllerTest {
 	
 	@Test
 	public void logarOk() throws Exception {
-		String name = "Jo„o da Silva";
+		String name = "Jo√£o da Silva";
 		String email = "joao@silva.org";
 		String password = "hunter2";
 		List<Phone> phones = Arrays.asList(new Phone("987654321", "21"));
@@ -105,7 +105,7 @@ public class LoginControllerTest {
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
                 /*.andDo(print())*/
                 .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.mensagem", is("Usu·rio e/ou senha inv·lidos")));
+                .andExpect(jsonPath("$.mensagem", is("Usu√°rio e/ou senha inv√°lidos")));
 
         verify(mockService, times(1)).logar(any(String.class), any(String.class));
 	}

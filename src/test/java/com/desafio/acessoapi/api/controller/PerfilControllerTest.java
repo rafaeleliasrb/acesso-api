@@ -46,18 +46,6 @@ public class PerfilControllerTest {
 	@Autowired
     private MockMvc mockMvc;
 	
-//	@Autowired
-//	private PasswordEncoder passwordEncoder;
-//	
-//	@Autowired
-//	private TokenFactory tokenFactory;
-	
-//	@MockBean
-//    private UsuarioRepository mockRepository;
-	
-//	@MockBean
-//    private UsuarioService mockService;
-	
 	@Autowired
     private WebApplicationContext wac;
 	
@@ -77,7 +65,7 @@ public class PerfilControllerTest {
 	
 	@Test
 	public void perfilUsuarioOk() throws Exception {
-		String name = "João da Silva";
+		String name = "JoÃ£o da Silva";
 		String email = "joao@silva.org";
 		String password = "hunter2";
 		List<Phone> phones = Arrays.asList(new Phone("987654321", "21"));
@@ -105,12 +93,12 @@ public class PerfilControllerTest {
 			.contentType("application/json;charset=UTF-8")
 			.accept("application/json;charset=UTF-8"))
 			.andExpect(status().isUnauthorized())
-			.andExpect(jsonPath("$.mensagem", is("Não autorizado")));
+			.andExpect(jsonPath("$.mensagem", is("Nï¿½o autorizado")));
 	}
 	
 	@Test
 	public void tokenErrado() throws Exception {
-		String name = "João da Silva";
+		String name = "JoÃ£o da Silva";
 		String email = "joao@silva.org";
 		String password = "hunter2";
 		List<Phone> phones = Arrays.asList(new Phone("987654321", "21"));
@@ -121,7 +109,7 @@ public class PerfilControllerTest {
 			.contentType("application/json;charset=UTF-8")
 			.accept("application/json;charset=UTF-8"))
 			.andExpect(status().isUnauthorized())
-			.andExpect(jsonPath("$.mensagem", is("Não autorizado")));
+			.andExpect(jsonPath("$.mensagem", is("Nï¿½o autorizado")));
 
 	}
 	

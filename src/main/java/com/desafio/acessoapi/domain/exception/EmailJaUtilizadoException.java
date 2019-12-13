@@ -9,6 +9,6 @@ public class EmailJaUtilizadoException extends RuntimeException {
 	}
 	
 	public EmailJaUtilizadoException() {
-		super("E-mail j· existente");
+		super("E-mail j√° existente");
 	}
 }

@@ -61,7 +61,7 @@ public class CadastroControllerTest {
 	
 	@Test
 	public void criaUsuarioOk() throws Exception {
-		String name = "Jo„o da Silva";
+		String name = "Joao da Silva";
 		String email = "joao@silva.org";
 		String password = "hunter2";
 		List<Phone> phones = Arrays.asList(new Phone("987654321", "21"));
@@ -93,7 +93,7 @@ public class CadastroControllerTest {
 	
 	@Test
 	public void criaUsuarioComEmailJaExistente() throws Exception {
-		String name = "Jo„o da Silva";
+		String name = "Joao da Silva";
 		String email = "joao@silva.org";
 		String password = "hunter2";
 		List<Phone> phones = Arrays.asList(new Phone("987654321", "21"));
@@ -107,7 +107,7 @@ public class CadastroControllerTest {
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
                 /*.andDo(print())*/
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.mensagem", is("E-mail j· existente")));
+                .andExpect(jsonPath("$.mensagem", is("E-mail j√° existente")));
 
 		verify(mockService, times(1)).cadastrar(any(Usuario.class));
 	}

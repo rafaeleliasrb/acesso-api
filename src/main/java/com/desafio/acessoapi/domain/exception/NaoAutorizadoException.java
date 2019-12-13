@@ -5,7 +5,7 @@ public class NaoAutorizadoException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	public NaoAutorizadoException() {
-		super("Não autorizado");
+		super("NÃ£o autorizado");
 	}
 
 	public NaoAutorizadoException(String mensagem) {
