@@ -1,5 +1,6 @@
 package com.desafio.acessoapi.api.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,9 +17,9 @@ import com.desafio.acessoapi.domain.service.UsuarioService;
 public class LoginController {
 
 	private UsuarioService usuarioService;
-	
+
+	@Autowired
 	public LoginController(UsuarioService usuarioService) {
-		super();
 		this.usuarioService = usuarioService;
 	}
 

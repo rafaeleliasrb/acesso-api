@@ -1,5 +1,6 @@
 package com.desafio.acessoapi.infrastructure.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,6 +16,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.desafio.acessoapi.api.filter.JwtAuthorizationFilter;
+import com.desafio.acessoapi.domain.repository.UsuarioRepository;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
@@ -29,6 +31,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //		this.passwordEncoder = passwordEncoder;
 //	}
 
+	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	public SecurityConfiguration(UsuarioRepository usuarioRepository) {
+		this.usuarioRepository = usuarioRepository;
+	}
+	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
@@ -37,7 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/cadastro", "/login").permitAll()
             .anyRequest().authenticated()
             .and()
-            .addFilter(new JwtAuthorizationFilter(authenticationManager()))
+            .addFilter(new JwtAuthorizationFilter(authenticationManager(), usuarioRepository))
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

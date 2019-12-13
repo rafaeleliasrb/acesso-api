@@ -40,10 +40,11 @@ public class UsuarioService {
 	
 	public Usuario logar(String email, String password) {
 		Usuario usuario = usuarioRepository.findByEmail(email)
-			.orElseThrow(() -> new UsuarioOuSenhaInvalidoException());
+			.orElseThrow(UsuarioOuSenhaInvalidoException::new);
 		validaSenha(usuario, password);
+		usuario.setLastLogin(LocalDateTime.now());
 		usuario.setToken(tokenFactory.newToken());
-		return usuario;
+		return usuarioRepository.save(usuario);
 	}
 
 	private void validaSenha(Usuario usuario, String password) {
